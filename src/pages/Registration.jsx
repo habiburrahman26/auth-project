@@ -17,29 +17,29 @@ const Registration = () => {
     <div className=" flex flex-col items-center justify-center shadow-lg w-[500px] mx-auto mt-32 py-6 px-10 rounded">
       <h2 className="text-2xl font-semibold pb-10">Registration</h2>
       <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
-        <div className="w-full mb-3">
-          <label htmlFor="email" className="block text-gray-700 pb-1">
-            Email
+      <div className="w-full mb-3">
+          <label htmlFor="username" className="block text-gray-700 pb-1">
+            Username
           </label>
           <input
-            type="email"
-            name="email"
-            placeholder="Email..."
+            type="username"
+            name="username"
+            placeholder="Username..."
             className="border focus:outline-none w-full p-2 rounded focus:border-blue-500"
-            {...register('email', {
+            {...register('username', {
               required: {
                 value: true,
-                message: 'Email is required',
+                message: 'Username is required',
               },
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: 'Enter valid email address',
+                message: 'Enter valid username',
               },
             })}
           />
-          {errors.email && (
+          {errors.username && (
             <span className="text-red-400 text-sm">
-              {errors.email?.message}
+              {errors.username?.message}
             </span>
           )}
         </div>

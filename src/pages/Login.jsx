@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { authActions } from '../store';
 
 const Login = () => {
   const {
@@ -9,8 +11,16 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
+  const isAuthenticate = useSelector((state) => state.isAuthenticate);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const onSubmit = (data) => {
-    console.log(data);
+    dispatch(authActions.login(data));
+
+    if (isAuthenticate) {
+      return navigate('/');
+    }
   };
 
   return (
@@ -18,28 +28,28 @@ const Login = () => {
       <h2 className="text-2xl font-semibold pb-10">Login</h2>
       <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
         <div className="w-full mb-3">
-          <label htmlFor="email" className="block text-gray-700 pb-1">
-            Email
+          <label htmlFor="username" className="block text-gray-700 pb-1">
+            Username
           </label>
           <input
-            type="email"
-            name="email"
-            placeholder="Email..."
+            type="username"
+            name="username"
+            placeholder="Username..."
             className="border focus:outline-none w-full p-2 rounded focus:border-blue-500"
-            {...register('email', {
+            {...register('username', {
               required: {
                 value: true,
-                message: 'Email is required',
+                message: 'Username is required',
               },
               pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: 'Enter valid email address',
+                value: /^[a-zA-Z]{2,}$/i,
+                message: 'Enter valid username',
               },
             })}
           />
-          {errors.email && (
+          {errors.username && (
             <span className="text-red-400 text-sm">
-              {errors.email?.message}
+              {errors.username?.message}
             </span>
           )}
         </div>
@@ -81,7 +91,11 @@ const Login = () => {
       </form>
 
       <p>
-        No account yet? <Link to="/registration" className='text-blue-500'>Registration</Link> here
+        No account yet?{' '}
+        <Link to="/registration" className="text-blue-500">
+          Registration
+        </Link>{' '}
+        here
       </p>
     </div>
   );
