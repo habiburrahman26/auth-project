@@ -17,6 +17,8 @@ const authSlice = createSlice({
         action.payload.password === state.password
       ) {
         state.isAuthenticate = true;
+      }else{
+        alert('Invalid username or password');
       }
     },
     logout(state) {
